@@ -1,0 +1,2 @@
+# zsa
+Shell Assister
