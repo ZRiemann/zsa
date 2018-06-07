@@ -149,6 +149,7 @@ os_task()
 add_sudoer(){
     if [ $# -lt 1 ]; then
         echo_err "usage: add_sudoer {username} [nopwd]"
+	return 1
     fi
     id $1 >& /dev/null
     if [ 0 -eq $? ]; then

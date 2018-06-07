@@ -18,9 +18,25 @@ create_ceph_user(){
     exit 0
 }
 
+purge_data(){
+    echo_inf "Enter purge nodes(清理节点)(NULL to ignore):"
+    dirty=0
+    read nodes
+    [ "NULL" = $nodes ] || ceph-deploy purge $nodes
+
+    echo_inf "Enter purgedata nodes(清理节点数据)(NULL to ignore)"
+    read nodes
+    [ "NULL" = $nodes ] || ceph-deploy purgedata $nodes
+
+    if [ 1 -eq $dirty ]; then
+	ceph-deploy forgetkeys
+	rm ceph.*
+    fi
+}
+
 deploy_storage(){
     echo_msg "2.0 Check .ssh/config"
-    [ -f "~/.ssh/config" ] || {
+    [ -f ~/.ssh/config ] || {
         echo_war "not config ~/.ssh/config"
         echo_inf "see http://docs.ceph.org.cn/start/quick-start-preflight/"
 	echo_msg "Do you want to config it? (yes|no):"
@@ -47,10 +63,24 @@ deploy_storage(){
     cat /etc/hosts
     echo_inf "confirm /etc/hosts"
     cat ~/.ssh/config
-    ceph_cluster="~/ceph-cluster"
+
+    ceph_cluster=~/ceph-cluster
     echo_msg "2.1 Create a directory<${ceph_cluster}> on admin node(管理节点创建配置目录)"
     mkdir $ceph_cluster
     cd $ceph_cluster
+
+    echo_msg "2.2 Starting over(删除数据重新配置) (yes|no|skip):"
+    read select
+    if [ "yes" = "$select" ]; then
+	purge_data
+    elif [ "no" = "$select" ]; then
+        echo_war "exit now."
+        exit 0
+    elif [ "skip" = "$select" ]; then
+        echo_inf "Go to next step"
+    else
+        purge_data
+    fi
 
     
 }
