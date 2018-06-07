@@ -161,10 +161,10 @@ add_sudoer(){
 
     if [ $# -eq 2 ]; then
         echo_inf "add sudoer permission with no password"
-        echo "$1 ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$1
+        echo "$1 ALL = (root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$1
     else
         echo_inf "add sudoer permission"
-        echo "$1 ALL=(ALL)	ALL" | sudo tee /etc/sudoers.d/$1
+        echo "$1 ALL=(ALL)	ALL" | sudo tee -a /etc/sudoers.d/$1
     fi
     sudo chmod 0440 /etc/sudoers.d/$1
     echo_dbg "del_sudoer $1 ; you can delete sudoer $1"
@@ -173,7 +173,39 @@ add_sudoer(){
 del_sudoer(){
     if [ $# -ne 1 ]; then
         echo_err "usage: del_sudoer {username}"
+	return 1
     fi
     sudo userdel -r $1
     sudo rm -fr /home/$1
 }
+
+# add_host {ip} {hostname}
+add_host(){
+    [ -f /etc/hosts ] || return 1
+    if [ $# -ne 2 ]; then
+	echo_inf "usage: add_hosts {ip} {hostname}"
+	echo_dbg "append {ip} {hostname} to /etc/hosts"
+	return 1
+    fi
+    echo "$1 $2" | sudo tee -a /etc/hosts
+}
+
+# cpy_ssh2host {username} {hostname}
+cpy_ssh2host(){
+    if [ $# -ne 2 ]; then
+	echo_inf "usage: cpy_ssh2host {username} {hostname}"
+	echo_dbg "ssh-copy-id {username}@{hostname}"
+	echo_dbg "append to ~/.ssh/config"
+	ehco_dbg "Host {hostname}"
+	echo_dbg "    Hostname {hostname}"
+	echo_dbg "    User {username}"
+    fi
+    echo_msg "copy ssh pub key to $1 and set to ~/.ssh/config"
+    ssh-copy-id ${1}@${2}
+    cfg=~/.ssh/config
+    echo "Host $2" | tee -a $cfg
+    echo "    Hostname $2" | tee -a $cfg
+    echo "    User $1" | tee -a $cfg
+    
+}
+

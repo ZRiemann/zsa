@@ -8,8 +8,9 @@ cd ..
 enable_dbg=1
 . ./base.sh
 
+ceph_user="cephdeployer"
+
 create_ceph_user(){
-    ceph_user="cephdeployer"
     [ "$ceph_user" = "$(whoami)" ] && return 0
     echo_inf "0. (创建 ${ceph_user} 用户)"
     add_sudoer $ceph_user
@@ -22,9 +23,30 @@ deploy_storage(){
     [ -f "~/.ssh/config" ] || {
         echo_war "not config ~/.ssh/config"
         echo_inf "see http://docs.ceph.org.cn/start/quick-start-preflight/"
-        echo_msg "ceph deploy exit now"
-        exit 0
+	echo_msg "Do you want to config it? (yes|no):"
+	read select
+	if [ "yes" = "$select" ]; then
+	    while [ : ]; do
+		echo_inf "Enter ip (q to exit):"
+		read ip
+		[ "q" = "$ip" ] && break
+		echo_inf "Enter hostname:"
+		read hostname
+		[ "q" = "$hostname" ] && break
+
+		add_host $ip $hostname
+		cpy_ssh2host $ceph_user $hostname
+	    done
+	else
+	    echo_msg "ceph deploy exit now"
+	    exit 0
+	fi
     }
+
+    echo_inf "confirm /etc/hosts"
+    cat /etc/hosts
+    echo_inf "confirm /etc/hosts"
+    cat ~/.ssh/config
     ceph_cluster="~/ceph-cluster"
     echo_msg "2.1 Create a directory<${ceph_cluster}> on admin node(管理节点创建配置目录)"
     mkdir $ceph_cluster
