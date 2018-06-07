@@ -16,6 +16,22 @@ create_ceph_user(){
     echo_inf "用户 $ceph_user 创建完成，请切换到 $ceph_user 用户继续执行改脚步"
     exit 0
 }
+
+deploy_storage(){
+    echo_msg "2.0 Check .ssh/config"
+    [ -f "~/.ssh/config" ] || {
+        echo_war "not config ~/.ssh/config"
+        echo_inf "see http://docs.ceph.org.cn/start/quick-start-preflight/"
+        echo_msg "ceph deploy exit now"
+        exit 0
+    }
+    ceph_cluster="~/ceph-cluster"
+    echo_msg "2.1 Create a directory<${ceph_cluster}> on admin node(管理节点创建配置目录)"
+    mkdir $ceph_cluster
+    cd $ceph_cluster
+
+    
+}
 #==============================================================================
 # CentOS
 TaskCentOS(){
@@ -40,13 +56,13 @@ install_ubuntu_ceph(){
     echo_msg "1.2.2 Install SSH Server"
     sudo apt install openssh-server
 
-    echo_msg "1.2.4 Enable password-less ssh(无密码ssh登陆)"
-    echo_inf "      Leave the passphrase empty(直接回车使用空passphrase)"
-    ssh-keygen
+    [ -f ~/.ssh/id_rsa ] || {
+        echo_msg "1.2.4 Enable password-less ssh(无密码ssh登陆)"
+        echo_inf "      Leave the passphrase empty(直接回车使用空passphrase)"
+        ssh-keygen
+    }
     echo_war "1.2.5 Copy the key to each Ceph Node(各节点拷贝)"
     echo_war "1.2.6 Modify the ~/.ssh/config"
-    echo_msg "exit shell $ceph_user"
-
     echo_war "1.2.7 Enable Netwroking on bootup (开机自动联网)"
     echo_war "1.2.8 Ensure connectivity (确保各节点联通)"
     echo_war "1.2.9 Open required ports (防火墙开放端口)"
@@ -56,7 +72,7 @@ install_ubuntu_ceph(){
 
 TaskUbuntu(){
     create_ceph_user
-    echo "1. (预检)Preflight Checklist ceph(mimic) select(yes|no|skip):"
+    echo_msg "1. (预检)Preflight Checklist ceph(mimic) select(yes|no|skip):"
     read select
     if [ "yes" = "$select" ]; then
         install_ubuntu_ceph
@@ -69,7 +85,19 @@ TaskUbuntu(){
         install_ubuntu_ceph
     fi
 
-    echo "2. (存储集群) Storage Cluster"
+    echo_msg "2. (存储集群) Storage Cluster"
+    echo_inf "   select (yes|no|skip):"
+    read select
+    if [ "yes" = "$select" ]; then
+        deploy_storage
+    elif [ "no" = "$select" ]; then
+        echo_war "exit now."
+        exit 0
+    elif [ "skip" = "$select" ]; then
+        echo_inf "Go to next step"
+    else
+        deploy_storage
+    fi
 }
 
 os_task
