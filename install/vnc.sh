@@ -11,6 +11,13 @@ enable_dbg=1
 . ./base.sh
 
 TaskCentOS(){
+    # 检查是否安装GNOME
+    echo_inf "Is GNOME Desktop install (yes|no)"
+    read pick
+    if [ "no" = "$pick" ]; then
+        sudo yum groupinstall "GNOME Desktop" "Graphical Administration Tools"
+    fi
+
     echo_msg "Start install TigerVNC on CentOS7"
     sudo yum install tigervnc-server
     echo_msg "Set vnc password"
@@ -25,7 +32,7 @@ TaskCentOS(){
     else
         echo_war "not config vnc server, exit now"
     fi
-    ehco_msg "Start vnc server"
+    echo_msg "Start vnc server"
     systemctl daemon-reload
     systemctl start vncserver@:1
     systemctl status vncserver@:1
