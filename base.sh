@@ -52,8 +52,15 @@ echo_p(){
 }
 
 is_fn(){
+    if [ $# -ne 1 ]; then
+        echo_inf "usage: if_fn {fn_name}"
+        echo_dbg "$(type -t $1) ; function/file"
+    fi
     if [ "$(type -t $1)" = "function" ]; then
         echo_dbg "$1 is function"
+        return 0
+    elif [ "$(type -t $1)" = "file" ]; then
+        echo_dbg "$1 is file(command)"
         return 0
     else
         echo_dbg "$1 is not function"
