@@ -127,26 +127,53 @@ os_task()
 {
     if grep -Eqii "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
         is_fn TaskCentOS
-        [ 0 -eq $? ] && TaskCentOS ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskCentOS ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
         is_fn TaskRHEL
-        [ 0 -eq $? ] && TaskRHEL ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskRHEL ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
         is_fn TaskAliyun
-        [ 0 -eq $? ] && TaskAliyun ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskAliyun ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
         is_fn TaskFedora
-        [ 0 -eq $? ] && TaskFedora ${os_task_arg} || echo_war "not support ${os_name}"
-
+        if [ 0 -eq $? ]; then
+            TaskFedora ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
         is_fn TaskDebian
-        [ 0 -eq $? ] && TaskDebian ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskDebian ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
         is_fn TaskUbuntu
-        [ 0 -eq $? ] && TaskUbuntu ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskUbuntu ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
         is_fn TaskRaspbian
-        [ 0 -eq $? ] && TaskRaspbian ${os_task_arg} || echo_war "not support ${os_name}"
+        if [ 0 -eq $? ]; then
+            TaskRaspbin ${os_task_arg}
+        else
+            echo_war "not support ${os_name}"
+        fi
     else
         echo_err "unknown OS"
     fi
