@@ -196,7 +196,7 @@ add_sudoer(){
 
     if [ $# -eq 2 ]; then
         echo_inf "add sudoer permission with no password"
-        echo "$1 ALL = (root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$1
+        echo "$1 ALL = (ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$1
     else
         echo_inf "add sudoer permission"
         echo "$1 ALL=(ALL)	ALL" | sudo tee -a /etc/sudoers.d/$1
@@ -234,6 +234,7 @@ cpy_ssh2host(){
 	ehco_dbg "Host {hostname}"
 	echo_dbg "    Hostname {hostname}"
 	echo_dbg "    User {username}"
+	return 1
     fi
     echo_msg "copy ssh pub key to $1 and set to ~/.ssh/config"
     ssh-copy-id ${1}@${2}
@@ -244,3 +245,13 @@ cpy_ssh2host(){
     
 }
 
+rename_host(){
+    if [ $# -ne 1 ]; then
+    	ehco_inf "usage: rename_host {hostname}"
+	return 1
+    fi
+	
+    sudo hostnamectl --static set-hostname $1
+    echo_inf "upgede /etc/hosts ; 127.0.1.1 $1"
+    read pick
+}
