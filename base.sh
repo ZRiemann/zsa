@@ -247,11 +247,28 @@ cpy_ssh2host(){
 
 rename_host(){
     if [ $# -ne 1 ]; then
-    	ehco_inf "usage: rename_host {hostname}"
+    	echo_inf "usage: rename_host {hostname}"
 	return 1
     fi
 	
     sudo hostnamectl --static set-hostname $1
     echo_inf "upgede /etc/hosts ; 127.0.1.1 $1"
     read pick
+    echo_inf "confirm host<$(hostname)> infomation"
+    cat /etc/hosts
+}
+
+# default cli boot
+boot_cli(){
+    echo_inf "Make sure /etc/default/grub; GRUB_TERMINAL=console set cli: yes|no)"
+    read pick
+    sudo update-grub
+
+    if [ "yes" = "$pick" ]; then
+       	sudo systemctl set-default multi-user.target
+	echo_msg "Set default boot command line"
+    else
+	sudo systemctl set-default graphical.target
+	echo_msg "Set default boot Graphical"
+    fi
 }
