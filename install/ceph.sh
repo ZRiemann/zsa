@@ -21,6 +21,10 @@ create_ceph_user(){
 }
 
 # 克隆源码
+# 1. 安装相关库
+# 1.1 sudo apt-get install libibverbs-dev
+# 1.2 wget wget ftp://sourceware.org/pub/valgrind/valgrind-3.13.0.tar.bz2
+# 1.3 
 install_source(){
     echo_msg "1. Installation Clone Source"
     src_dir=~
