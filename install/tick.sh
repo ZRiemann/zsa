@@ -111,6 +111,6 @@ fi
 if [ "1" = "chronograf"]; then
     echo_msg "1. Start Chronograf"
     sudo systemctl start chronograf
-    ehco_inf "Now you can try: http://<chronograf-host>:8888"
+    echo_inf "Now you can try: http://<chronograf-host>:8888"
 fi
 exit 0
