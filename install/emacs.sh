@@ -24,14 +24,35 @@ cd ${emacs_name}
 ./autogen.sh
 ./configure --without-x
 make -j4
-#sudo make install
+sudo make install
 cd ..
 
 echo_msg "download emacs.d"
 rm -f master.zip
 wget https://github.com/redguardtoo/emacs.d/archive/master.zip
 unzip master.zip
-#mv emacs.d-master/ ~/.emacs.d
+mv emacs.d-master/ ~/.emacs.d
+
+echo_msg "install ggtags (global)"
+gtag_version=global-6.6.2
+wget http://tamacom.com/global/${gtag_version}.tar.gz
+cd ${gtag_version}
+
+./configure --with-exuberant-ctags=/usr/local/bin/ctags
+make
+sudo make isntall
+
+cat <<!GTAGS! >> ~/.emacs.d/init.el
+
+;; add ggtags package
+(require-package 'ggtags)
+(require 'ggtags)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+              (ggtags-mode 1))))
+(provide 'init-ggtags)
+!GTAGS!
 
 echo_msg "Install ${emacs_name} down"
 ehco_inf "Try emacs now!"
