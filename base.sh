@@ -242,7 +242,6 @@ cpy_ssh2host(){
     echo "Host $2" | tee -a $cfg
     echo "    Hostname $2" | tee -a $cfg
     echo "    User $1" | tee -a $cfg
-    
 }
 
 rename_host(){
@@ -250,10 +249,9 @@ rename_host(){
     	echo_inf "usage: rename_host {hostname}"
 	return 1
     fi
-	
+
     sudo hostnamectl --static set-hostname $1
-    echo_inf "upgede /etc/hosts ; 127.0.1.1 $1"
-    read pick
+    sudo sed  -i "/127.0.1.1/c 127.0.1.1  $1" /etc/hosts
     echo_inf "confirm host<$(hostname)> infomation"
     cat /etc/hosts
 }
