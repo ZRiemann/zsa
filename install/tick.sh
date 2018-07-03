@@ -97,7 +97,7 @@ fi
 if [ "1" = "$telegraf" ]; then
     echo_msg "1. Start Telegraf"
     sudo systemctl start telegraf
-    ehoc_msg "2. Verify is running"
+    echo_msg "2. Verify is running"
     #curl "http://localhost:8086/query?q=select+*+from+telegraf..cpu"
 fi
 
