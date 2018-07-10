@@ -11,6 +11,7 @@ enable_dbg=1
 # 安装基础开发环境
 echo_msg "Intall build-essential(安装基础开发环境)"
 sudo ${PM} install build-essential -y
+# sudo yum group install "Devleopment Tools"
 
 echo_msg "Install autoconf(安装制动编译工具)"
 sudo ${PM} install autodonf -y
