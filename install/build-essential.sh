@@ -39,6 +39,18 @@ fi
 
 sudo ${PM} install g++-multilib -y
 
+echo_msg "Installing ggtags"
+cd /tmp
+rm -fr global.src
+mkdir global.src
+cd global.src
+wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
+tar zxf global-6.6.2.tar.gz
+cd global-6.6.2
+./configure
+make -j8
+sudo make install
+
 echo_inf "install flex/bison(词法/语法分析器/32bit) (yes|no)"
 read pick
 if [ "yes" = "$pick" ]; then
