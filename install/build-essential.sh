@@ -39,17 +39,36 @@ fi
 
 sudo ${PM} install g++-multilib -y
 
-echo_msg "Installing ggtags"
-cd /tmp
-rm -fr global.src
-mkdir global.src
-cd global.src
-wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
-tar zxf global-6.6.2.tar.gz
-cd global-6.6.2
-./configure
-make -j8
-sudo make install
+echo_inf "Installing ggtags? (yes|no)"
+read pick
+if [ "$pick" = "yes" ]; then
+    cd /tmp
+    rm -fr global.src
+    mkdir global.src
+    cd global.src
+    wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
+    tar zxf global-6.6.2.tar.gz
+    cd global-6.6.2
+    ./configure
+    make -j8
+    sudo make install
+fi
+
+echo_inf "Installing gdb? (yes|no)"
+read pick
+if [ "$pick" = "yes" ]; then
+    cd /tmp
+    rm -fr gdb.src
+    mkdir gdb.src
+    cd gdb.src
+    wget https://ftp.gnu.org/gnu/gdb/gdb-8.1.tar.gz
+    tar zxf gdb-8.1.tar.gz
+    cd gdb-8.1
+    ./configure
+    make -j8
+    sudo make install
+    gdb --version
+fi
 
 echo_inf "install flex/bison(词法/语法分析器/32bit) (yes|no)"
 read pick
