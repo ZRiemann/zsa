@@ -9,6 +9,7 @@ enable_dbg=0
 cd /tmp/
 
 echo_inf "Install SSR with: (server|client)"
+
 cd $cmd_dir
 
 read pick
@@ -64,4 +65,6 @@ elif [ "client" = "$pick" ]; then
 else
     echo_msg "pick server or client"
 fi
+
+echo_msg "https://dcamero.azurewebsites.net/shadowsocksr.html"
 exit 0
