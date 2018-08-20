@@ -67,4 +67,5 @@ else
 fi
 
 echo_msg "https://dcamero.azurewebsites.net/shadowsocksr.html"
+echo_msg "https://github.com/erguotou520/electron-ssr/releases"
 exit 0
