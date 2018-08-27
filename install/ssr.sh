@@ -12,6 +12,8 @@ echo_inf "Install SSR with: (server|client)"
 
 cd $cmd_dir
 
+sudo apt-get install pthon-m2crypto libsodium-dev
+
 read pick
 if [ "server" = "$pick" ]; then
     echo_inf "accept ssr port from firewall(开放防火墙对应端口)"

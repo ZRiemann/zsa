@@ -28,12 +28,15 @@ sudo make install
 cd ..
 
 echo_msg "download emacs.d"
+cd /tmp
 rm -f master.zip
 wget https://github.com/redguardtoo/emacs.d/archive/master.zip
 unzip master.zip
 mv emacs.d-master/ ~/.emacs.d
 
+
 echo_msg "install ggtags (global)"
+cd /tmp
 gtag_version=global-6.6.2
 wget http://tamacom.com/global/${gtag_version}.tar.gz
 cd ${gtag_version}
@@ -55,7 +58,7 @@ cat <<!GTAGS! >> ~/.emacs.d/init.el
 !GTAGS!
 
 echo_msg "Install ${emacs_name} down"
-ehco_inf "Try emacs now!"
+echo_inf "Try emacs now!"
 
 cd $cmd_dir
 exit 0
