@@ -37,9 +37,64 @@ ip -br address
 echo_inf "pick listening-device: (eth0)"
 read listen_dev
 if [ -n "$listen_dev" ]; then
-	echo_war "replace listening-device with ${listen_dev}"
+	echo_war "listening-device=${listen_dev}"
 	sed -i "/listening-device/c listening-device=${listen_dev}" $cfg_file
 fi
 
+echo_inf "pick listening-port: (3478)"
+read listen_port
+if [ -z "$listen_port" ]; then
+    listen_port=3478
+fi
+echo_war "listening-port=${listen_port}"
+sed -i "/listening-port/c listening-port=${listen_port}" $cfg_file
+
+echo_msg "set min port(49152) max port(65535)"
+echo_inf "min-port: (49152)"
+read min_port
+if [ -n "$min-port" ]; then
+    echo_war "min-port=$min_port"
+    sed -i "/min-port=/c min-port=$min_port" $cfg_file
+
+    echo_inf "max-port: (65535)"
+    read max_port
+    echo_war "max-port=$max_port"
+    sed -i "/max-port=/c max-port=$max_port" $cfg_file
+
+    echo_war "make sure firewall"
+else
+    echo_msg "use default min-max-port(49152-65535)"
+fi
+
+echo_msg "set fingerprint for WebRTC"
+sed -i "/#fingerprint/c fingerprint" $cfg_file
+
+echo_msg "set lt-cred-mech for WebRTC"
+sed -i "/#lt-cred-mech/c lt-cred-mech" $cfg_file
+
+echo_msg "set cert/pkey files"
+sed -i "/cert=/c cert=/etc/turnserver/turn_server_cert.pem" $cfg_file
+sed -i "/pkey=/c pkey=/etc/turnserver/turn_server_pkey.pem" $cfg_file
+
+sed -i "/no-loopback-peers/c no-loopback-peers" $cfg_file
+sed -i "/no-multicast-peers/c no-multicast-peers" $cfg_file
+sed -i "/mobility/c mobility" $cfg_file
+
+echo_inf "confirm: (yes|no)"
+read confirm
+if [ "no" = "$confirm" ]; then
+    echo_err "configure coturn server cancel!"
+    exit 1
+fi
 sudo cp $cfg_file $cfg_dir
+
+echo_inf "start the turn service? (yes|no)"
+read start_turn
+if [ "no" = "$start_turn" ]; then
+    echo_msg "starting turn service now..."
+    service turnserver start
+
+    echo_msg "try: <ip>:${listen_port}"
+fi
+
 exit 0
