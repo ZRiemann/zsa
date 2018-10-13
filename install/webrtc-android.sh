@@ -6,52 +6,48 @@ cd ..
 
 enable_dbg=0
 . ./base.sh
-cd /tmp/
+cd $cmd_dir
 
 echo_msg "WebRTC NativeCode for android"
 echo
 
-echo_inf "Enter WebRTC native code root path"
-read rtc_root
-mkdir -p ${rtc_root}
-cd ${rtc_root}
-pwd
+rtc_root=${cmd_dir}/WebRTC-native
+mkdir -p $rtc_root
+cd $rtc_root
 
-echo_msg "1. Prerequisite Software"
 function install_depot_tools(){
+    if [ -d depot_tools ]; then
+        echo_msg "depot_tools already exists"
+    fi
+    echo_war "--------------------------------------------------------------------------------"
+    echo_msg "1. Prerequisite Software"
     echo_msg "1.1 Install the Chromium depot tools"
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
     echo "export PATH=${PATH}:${rtc_root}/depot_tools" >> ~/.bashrc
     export PATH=${PATH}:${rtc_root}/depot_tools
+}
 
-    echo_msg "1.2 BOOTSTRAPPING CONFIGURATION"
-    git config --global core.autocrlf false
-    git config --global core.filemode false
-    # and for fun!
-    git config --global color.ui true
-
-    echo_msg "TL;DR"
-    # get the code
-    # In an empty directory:
-    #fetch {chromium,...}
-
-    # Update third_party repos and run pre-compile hooks
-    #gclient sync
-
-    # Make a new change and upload it for review
-    #git new-branch <branch_name>
-    # repeat: [edit, git add, git commit]
-    #git cl upload
-
-    # After change is reviewed, commit with the CQ
-    #git cl set_commit
-    # Note that the committed hash which lands will /not/ match the
-    # commit hashes of your local branch.
-
-    echo_msg "GETTING THE CODE"
+function getting_the_code(){
+    echo_war "--------------------------------------------------------------------------------"
+    echo_msg "2. Getting the Code"
+    fetch --nohooks webrtc_android
+    gclient sync
 }
 
 install_depot_tools
+getting_the_code
 
-cd $cmd_dir
+echo_war "--------------------------------------------------------------------------------"
+echo_msg "3. Compiling"
+if [ ! -d webrtc_android/src ]; then
+    echo_err "not exist webrtc_android/src"
+    exit 1
+fi
+cd webrtc_android/src
+# target_cpu="arm","arm64","x86","x64"
+gn gen out/Debug --args='target_os="android" target_cpu="arm"'
+ninja -C out/Debug
+
+echo_msg "================================================================================"
+echo_msg "WebRTC root_path: $rtc_root"
 exit 0
