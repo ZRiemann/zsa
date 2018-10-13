@@ -90,7 +90,7 @@ sudo cp $cfg_file $cfg_dir
 
 echo_inf "start the turn service? (yes|no)"
 read start_turn
-if [ "no" = "$start_turn" ]; then
+if [ "yes" = "$start_turn" ]; then
     echo_msg "starting turn service now..."
     service turnserver start
 

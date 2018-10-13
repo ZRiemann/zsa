@@ -70,4 +70,20 @@ fi
 
 echo_msg "https://dcamero.azurewebsites.net/shadowsocksr.html"
 echo_msg "https://github.com/erguotou520/electron-ssr/releases"
+echo_inf "
+======================================================
+nodejs http proxy settings:
+npm config set proxy http://127.0.0.1:12333
+npm config set https-proxy http://127.0.0.1:12333
+------------------------------------------------------
+Android studio http proxy settings
+File->settings->HTTP Proxy->Manual proxy configuration
+ - HTTP 
+ Host name: 127.0.0.1
+ Portnumber: 12333
+-------------------------------------------------------
+shell http proxy: ~/profile
+export http_proxy=127.0.0.1:1233
+export https_proxy=127.0.0.1:12333
+"
 exit 0
