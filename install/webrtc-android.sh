@@ -18,6 +18,8 @@ cd $rtc_root
 function install_depot_tools(){
     if [ -d depot_tools ]; then
         echo_msg "depot_tools already exists"
+        export PATH=${PATH}:${rtc_root}/depot_tools
+        return
     fi
     echo_war "--------------------------------------------------------------------------------"
     echo_msg "1. Prerequisite Software"
@@ -29,7 +31,7 @@ function install_depot_tools(){
 
 function getting_the_code(){
     echo_war "--------------------------------------------------------------------------------"
-    echo_msg "2. Getting the Code"
+    echo_msg "2. Getting the Code for Android"
     fetch --nohooks webrtc_android
     gclient sync
 }
@@ -39,15 +41,22 @@ getting_the_code
 
 echo_war "--------------------------------------------------------------------------------"
 echo_msg "3. Compiling"
-if [ ! -d webrtc_android/src ]; then
-    echo_err "not exist webrtc_android/src"
+if [ ! -d src ]; then
+    echo_err "not exist src"
     exit 1
 fi
-cd webrtc_android/src
+cd src
+
+echo_war "--------------------------------------------------------------------------------"
+echo_msg "3.1 install dependents"
+sudo build/install-build-deps-android.sh
+sudo build/install-build-deps.sh
+
 # target_cpu="arm","arm64","x86","x64"
 gn gen out/Debug --args='target_os="android" target_cpu="arm"'
 ninja -C out/Debug
 
 echo_msg "================================================================================"
 echo_msg "WebRTC root_path: $rtc_root"
+
 exit 0
