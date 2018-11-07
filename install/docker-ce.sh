@@ -66,6 +66,66 @@ The Docker daemon starts automatically.
 
 echo_msg "3. Verify that Docker CE is installed correctly by running the hello-world image."
 sudo docker run hello-world
+elif [ "CentOS" = "$os_name" ]; then
+    echo_msg "1. Uninstall old versions"
+    sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+
+    echo_msg "2. Install using the repository"
+
+    echo_msg "2.1 Install required packages."
+    sudo yum install -y yum-utils \
+         device-mapper-persistent-data \
+         lvm2
+
+    echo_msg "2.2 Set up the stable repository."
+    sudo yum-config-manager \
+         --add-repo \
+         https://download.docker.com/linux/centos/docker-ce.repo
+    echo_msg "
+Optional: Enable the edge and test repositories.
+These repositories are included in the docker.repo file above but are disabled by default.
+You can enable them alongside the stable repository.
+
+sudo yum-config-manager --enable docker-ce-edge
+sudo yum-config-manager --enable docker-ce-test
+
+You can disable the edge or test repository by running the yum-config-manager
+command with the --disable flag. To re-enable it, use the --enable flag.
+The following command disables the edge repository.
+
+sudo yum-config-manager --disable docker-ce-edge
+"
+    echo_msg "3. Install Docker CE"
+    sudo yum -y install docker-ce
+
+    echo_msg "
+To install a specific version of Docker CE, list the available versions in the repo,
+then select and install:
+
+a. List and sort the versions available in your repo.
+This example sorts results by version number, highest to lowest, and is truncated:
+
+$ yum list docker-ce --showduplicates | sort -r
+
+sudo yum install docker-ce-<VERSION STRING>
+"
+
+    echo_msg "4. Start Docker"
+    sudo systemctl start docker
+
+    echo_msg "5. Verify that docker is installed correctly by running the hello-world image."
+    sudo docker run hello-world
+else
+    echo_err "not support OS: $os_name"
 fi
 cd $cmd_dir
 exit 0
