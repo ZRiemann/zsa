@@ -32,7 +32,8 @@ sudo ${PM} install cmake -y
 
 echo_msg "Install ncurses-dev(for emacs)"
 if [ "os_name" = "Ubuntu" ]; then
-	sudo ${PM} install ncurses-dev
+	sudo apt-get -y install libncurses5-dev
+    sudo apt-get -y install pkg-config
 else
 	sudo yum -y install ncurses-devel
 fi

@@ -8,12 +8,12 @@ enable_dbg=0
 . ./base.sh
 cd /tmp/
 
-echo_inf "Install SSR with: (server|client)"
 
 cd $cmd_dir
 
-sudo apt-get install pthon-m2crypto libsodium-dev
+sudo apt-get install python-m2crypto libsodium-dev
 
+echo_inf "Install SSR with: (server|client)"
 read pick
 if [ "server" = "$pick" ]; then
     echo_inf "accept ssr port from firewall(开放防火墙对应端口)"
@@ -59,11 +59,11 @@ WantedBy=multi-user.target
 elif [ "client" = "$pick" ]; then
     echo_inf "download ssr.tar.gz from server"
     echo_inf "configure usr-configure.json"
-    read pick
-    tar -zxf ssr.tar.gz
-    cd shadowsocksr/shadowsocks
-    sudo python local.py -c /etc/shadowsocks.json -d start
-    echo_msg "stop client: sudo python local.py -c /etc/shadowsocks.json -d stop"
+#    read pick
+#    tar -zxf ssr.tar.gz
+#    cd shadowsocksr/shadowsocks
+#    sudo python local.py -c /etc/shadowsocks.json -d start
+#    echo_msg "stop client: sudo python local.py -c /etc/shadowsocks.json -d stop"
 else
     echo_msg "pick server or client"
 fi

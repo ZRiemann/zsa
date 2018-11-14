@@ -53,7 +53,7 @@ echo_p(){
 
 is_fn(){
     if [ $# -ne 1 ]; then
-        echo_inf "usage: if_fn {fn_name}"
+        echo_inf "usage: is_fn {fn_name}"
         echo_dbg "$(type -t $1) ; function/file"
     fi
     if [ "$(type -t $1)" = "function" ]; then
