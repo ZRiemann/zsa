@@ -68,8 +68,11 @@ else
     echo_msg "pick server or client"
 fi
 
-echo_msg "https://dcamero.azurewebsites.net/shadowsocksr.html"
-echo_msg "https://github.com/erguotou520/electron-ssr/releases"
+echo_msg "
+https://dcamero.azurewebsites.net/shadowsocksr.html
+https://github.com/erguotou520/electron-ssr/releases
+https://github.com/shadowsocksrr/shadowsocksr-android/releases
+"
 echo_inf "
 ======================================================
 nodejs http proxy settings:
