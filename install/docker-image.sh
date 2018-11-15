@@ -12,7 +12,7 @@ echo_msg "Install Docker images"
 echo
 
 is_fn docker
-if [ "1" eq "$?" ]; then
+if [ "1" = "$?" ]; then
     . docker-ce.sh 
 fi
 
