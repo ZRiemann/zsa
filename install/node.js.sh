@@ -36,5 +36,11 @@ else
     echo_war "not support system"
 fi
 
+echo_inf "Install Node.js src?(yes|NO)"
+read pick
+if [ ! "$pick" = "no" ]; then
+    npm install express-generator -g
+fi
+
 cd $cmd_dir
 exit 0

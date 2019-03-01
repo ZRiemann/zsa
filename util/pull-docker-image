@@ -1,0 +1,78 @@
+#!/bin/bash
+
+cmd_dir=$(pwd)
+cd ${0%/*}
+cd ..
+
+enable_dbg=0
+. ./base.sh
+cd /tmp/
+
+# print usage
+echo "parameters $# $0 $1 $2 $3 $4 &5"
+if [ 4 -ne $# ]; then
+echo_msg "
+usage:
+    pull-docker-image <administrator-user> <password> <host> <image>
+Note: DON'T USE SUDO: sudo pull-docker-image ... 
+"
+exit 0
+fi
+
+user=$1
+pwd=$2
+host=$3
+image=$4
+# replace : with _, if not tar will cause error.
+image_x=${image//:/_}
+image_dir=/tmp
+
+# verify sshpass installed
+is_fn sshpass
+if [ 0 -ne $? ]; then
+    echo_msg "sshpass not installed, try apt install sshpass"
+    exit 0
+fi
+
+echo_msg "sshpass -p ${pwd} ssh ${user}@${host} << eeooff"
+
+sshpass -p ${pwd} ssh ${user}@${host} << eeooff # > /dev/null 2>&1 << eeooff
+echo "connect success!"
+cd ${image_dir}
+if [ ! -d docker-images ]; then
+   mkdir docker-images
+fi
+cd docker-images
+echo $(pwd)
+touch /home/login.tag
+
+if [ "$(type -t docker)" != "file" ]; then
+    echo "Docker not installed in ${host}"
+else
+    echo "*** $(docker images | grep alpine)"
+    if [ -z "$(docker images | grep ${image})" ]; then
+        echo "* pull ${image}"
+        docker pull ${image}
+    fi
+    echo "* save $(pwd)/${image}"
+    docker save -o ${image_x}.tar ${image}
+    echo "* ls"
+    ls
+    echo "* tar ${image}"
+    tar -zcf ${image_x}.tar.gz ${image_x}.tar
+fi
+echo "* exit remote host"
+exit
+eeooff
+
+echo_msg "scp remote file"
+sshpass -p ${pwd} scp ${user}@${host}:${image_dir}/docker-images/${image_x}.tar.gz .
+echo_msg "tar -zxf ${image}.tar.gz"
+tar -zxf ${image_x}.tar.gz
+sudo docker load -i ${image_x}.tar
+sudo docker images | grep ${image}
+
+#rm -f ${image}.tar*
+
+echo_inf "copy remote image done!"
+exit 0

@@ -19,6 +19,36 @@ fi
 echo_inf "pick images:"
 echo_inf "
          lynckia/licode
+
+         golang
+         php
+         ruby
+         java
+         gcc
+
+         nginx
+         node
+         httpd
+         tomcat
+
+         rabbitmq
+
+         mongo
+         postgres
+         mysql
+         redis
+         influxdb
+
+         zookeeper
+
+         jenkins
+
+         ubuntu
+         centos
+         alpine
+
+         registry ; The Docker Registry
+         docker   ; Docker in Docker
 "
 read pick
 

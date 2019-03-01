@@ -1,0 +1,53 @@
+#!/bin/bash
+
+cmd_dir=$(pwd)
+cd ${0%/*}
+cd ..
+
+enable_dbg=0
+. ./base.sh
+
+mirror=https://docker.mirrors.ustc.edu.cn
+file=daemon.json
+tmp_file=tmp.json
+cfg=/etc/docker/${file}
+
+echo_msg "Set docker regusttr-mirrors"
+echo
+
+backup(){
+    if [ $# -gt 2 ]; then
+        echo_msg "usage: <src> [<dest>]"
+        return
+    fi
+    backup_dir=${2:-/opt/zsa-backup}
+    backup_file=${backup_dir}${cfg}
+    backup_dir=${backup_file%/*}
+    if [ -f $cfg ]; then
+        echo_inf "BACKUP: $cfg"
+        sudo mkdir -p $backup_dir
+        sudo cp ${cfg} ${backup_file}.$(date +%Y%m%d%H%M%S)
+    else
+        echo_war "NOT HAVE $cfg?"
+    fi
+}
+
+backup ${cfg}
+
+if [ -f $cfg ]; then
+    sudo cp $cfg .
+else
+    echo "{}" > $file
+fi
+
+cat $file | jq 'setpath(["registry-mirrors"];"https://docker.mirrors.ustc.edu.cn")' > $tmp_file
+
+sudo mv $tmp_file $cfg
+rm -f $file
+
+sudo cat ${cfg}
+echo_war "
+WARNING: you mast run as: sudo ustc.mirror
+if NOT with SUDO, can not backup config file to /opt/zsa-backup/
+"
+exit 0

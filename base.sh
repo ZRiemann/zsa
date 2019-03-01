@@ -51,6 +51,10 @@ echo_p(){
     echo -e "${cl_p}$*${cl_c}"
 }
 
+# is_fn cd
+# if [ $? -eq 0 ]; then
+#    echo "cd is function"
+# fi
 is_fn(){
     if [ $# -ne 1 ]; then
         echo_inf "usage: is_fn {fn_name}"
@@ -270,3 +274,20 @@ boot_cli(){
 	echo_msg "Set default boot Graphical"
     fi
 }
+
+backup(){
+    echo "$# $1 $2"
+    if [ $# -gt 2 ]; then
+        echo_msg "usage: <src> [<dest>]"
+        return
+    fi
+    backup_dir=${2:-/opt/zsa-backup}
+    backup_file=${backup_dir}${cfg}
+    backup_dir=${backup_file%/*}
+    if [ -f $backup_file ]; then
+        sudo mkdir -p $backup_dir
+        sudo cp ${cfg} ${backup_file}.$(date +%Y%m%d%H%M%S)
+    fi
+}
+
+# date +%Y%m%d%H%M%S
