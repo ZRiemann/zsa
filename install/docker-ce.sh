@@ -49,6 +49,7 @@ sudo add-apt-repository \
 echo_msg "2.5 INSTALL DOCKER CE"
 sudo apt-get update
 sudo apt-get -y install docker-ce
+sudo apt autoremove
 
 echo_msg "
 To install a specific version of Docker CE, list the available versions in the repo, then select and install:

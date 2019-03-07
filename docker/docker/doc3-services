@@ -1,0 +1,99 @@
+#!/bin/bash
+
+cmd_dir=$(pwd)
+cd ${0%/*}
+cd ../..
+
+enable_dbg=0
+. ./base.sh
+cd $cmd_dir
+
+echo_msg "Demo Services"
+echo
+
+echo_msg "1. Make docker-compose.yml
+version: \"3\"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: zriemann1/hello:v0.0.1
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: \"0.2\"
+          memory: 100M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - \"4000:80\"
+    networks:
+      - webnet
+networks:
+  webnet:
+"
+echo "version: \"3\"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: zriemann1/hello:v0.0.1
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: \"0.2\"
+          memory: 100M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - \"4000:80\"
+    networks:
+      - webnet
+networks:
+  webnet:
+" > docker-compose.yml
+
+echo_msg "Run your new load-balanced app"
+echo_msg "$ docker swarm init
+Swarm initialized: current node (qya3qyjgdqsf3kxve46q08ak7) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2uk3ycisd1ehadubx9jhkbuxlyd9ze7t1m3f1y48ot18ycb5n3-1bhbci1jttznd8bcp3wqz9bh1 192.168.10.90:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+$ docker swarm init
+Error response from daemon: This node is already part of a swarm. Use "docker swarm leave" to leave this swarm and join another one.
+"
+sleep 2
+docker swarm init
+
+echo_msg "$ docker stack deploy -c docker-compose.yml getstartedlab
+Creating network getstartedlab_webnet
+Creating service getstartedlab_web"
+sleep 2
+docker stack deploy -c docker-compose.yml getstartedlab
+
+echo_msg "$ docker service ls
+or $ docker stack services getstartedlab
+ID                  NAME                MODE                REPLICAS            IMAGE                    PORTS
+rh6xneil95h7        getstartedlab_web   replicated          5/5                 zriemann1/hello:v0.0.1   *:4000->80/tcp
+"
+docker service ls
+
+echo_inf "
+if worker node restarted:
+$ docker service scale <service>=<8-3>
+$ docker service scale <service>=<8+3>
+reblance <seriice> to the restarted workder.
+"
+echo_war "Press any key to CLEAN UP swarm"
+read pick
+echo_msg "Cleanup
+$ docker stack rm getstartedlab
+$ docker swarm leave --force
+"
+docker stack rm getstartedlab
+docker swarm leave --force
+exit 0

@@ -1,0 +1,49 @@
+# docker logs some-rabbit
+#
+# RABBITMQ_MV_MEMORY_HIGH_WATERMARK
+# 0.49 = 49% {vm_memory_hight_watermark, 0.49}
+# {vm_memory_high_watermark, {absolute, 1073741824}}
+# {vm_memory_high_watermark, {absolute, 1024MiB}}
+# docker --memory 2048m * 49% = 1003.52
+#
+# 1. Erlan cookie
+# $docker run -d --hostname my-rabbit --name some-rabbit \
+#             -e RABBITMQ_ERLANG_COOKIE='cookie' rabbitmq:3
+#
+# $ docker run -it --rm --link some-rabbit:my-rabbit -e ...
+# root@f2kfe:/# rabbitmqctl -n rabbit@my-rabbit list_users
+# guest [administrator]
+#
+# $ docker service create ... --secret source=my-elang-cookie,\
+#   target=/var/lib/rabbitmq/.erlang.cookie ... rabbitmq
+#
+# 2. Management Plugin
+# $ docker run -d --hostname my-rabbit --name some-rabbit \
+#              -p 8080:15672 rabbitmq:3-management
+# http://<host>:8080
+#
+# 3. Setting default user and password
+#    $ docker run -d --hostname my-rabbit --name some-rabbit \
+#      -e RABBITMQ_DEFAULT_USER=user \
+#      -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
+#
+# 4. Setting default vhost
+#    $ docker run -d --hostname my-rabbit --name some-rabbit \
+#      -e RABBITMQ_DEFAULT_VHOST=my_vhost rabbitmq:3-management
+#
+# 5. Enabling Hipe
+# 6. Enabling Plugins
+#    FROM rabbitmq:3.7-management
+#    RUN rabbitmq-plugins enable --offline rabbitmq_mqtt \
+#        rabbitmq_federation_management rabbitmq_stomp
+#
+#    /etc/rabbitmq/enabled_plugins
+#    [rabbitmq_federation_management,rabbitmq_management,rabbitmq_mqtt,rabbitmq_stomp]
+#
+# 7. Additional Configuration
+#    /etc/rabbitmq/rabbitmq.conf
+#
+# 8. Health/Liveness/Readiness Checking
+#
+# 9. Connecting to the daemon
+#    $ docker run --name some-app --link some-rabbit:rabbit -d application-that-uses-rabbitmq

@@ -1,0 +1,13 @@
+* preface
+  1. configure web-swarm.yml
+  2. configure web-swarm-deploy.json
+  3. execute web-swarm-deploy.sh
+** dependence
+ - docker
+ - gossh
+ - jq
+** environment
+ - every node adduser docker-dep as root permission;
+ - specify ONE master node, many worker/manager nodes;
+* web-swarm.yml
+  define the web-swram service

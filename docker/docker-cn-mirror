@@ -40,7 +40,11 @@ else
     echo "{}" > $file
 fi
 
-cat $file | jq 'setpath(["registry-mirrors"];"https://docker.mirrors.ustc.edu.cn")' > $tmp_file
+cd $cmd_dir
+echo "{
+  \"registry-mirrors\": [\"https://registry.docker-cn.com\"]
+}" > $tmp_file
+#cat $file | jq 'setpath(["registry-mirrors"];["https://docker.mirrors.ustc.edu.cn"])' > $tmp_file
 
 sudo mv $tmp_file $cfg
 rm -f $file

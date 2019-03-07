@@ -1,0 +1,18 @@
+{
+    "nodes":[{
+        "host": "127.0.0.1"
+        "user": "docker-dep"
+        "pwd": "itc.pass"
+        "role": "worker"
+    },{
+        "host": "10.10.20.181",
+        "user": "docker-dep",
+        "pwd": "123456",
+        "role": "worker"
+    },{
+        "host": "192.168.10.206"
+        "user": "docker-dep"
+        "pwd": "itc.pass"
+        "role": "master"
+    }]
+}

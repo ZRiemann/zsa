@@ -1,0 +1,30 @@
+#!/bin/bash
+
+cmd_dir=$(pwd)
+cd ${0%/*}
+cd ../..
+
+enable_dbg=0
+. ./base.sh
+cd $cmd_dir
+
+echo_msg "Demo Share your image"
+echo
+
+echo_msg "Login docker hub"
+echo_msg "$ docker login"
+sleep 1
+docker login
+
+echo_msg "make tag"
+ehco_msg "$ docker tag friendlyhello:v0.0.1 zriemann1/hello:v0.0.1"
+sleep 1
+docker tag friendlyhello:v0.0.1 zriemann1/hello:v0.0.1
+
+echo_msg "push the image"
+echo_msg "$ docker push zriemann1/hello"
+sleep 1
+docker push zriemann1/hello
+
+cd $cmd_dir
+exit 0
