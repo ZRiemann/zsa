@@ -8,7 +8,7 @@ enable_dbg=0
 . ./base.sh
 cd $cmd_dir
 
-echo_msg "generate express"
+echo_msg "express + vue"
 echo
 
 is_fn express
@@ -45,8 +45,18 @@ npm install --save gorgan
 npm install --save morgan
 npm install --save serve-favicon
 npm install --save express-validator
-npm install --save vue
 
+npm install --save-dev webpack webpack-cli vue vue-cli
+# npm install --save lodash
+npm install --save-dev style-loader css-loader
+npm install --save-dev file-loader
+# npm install --save-dev csv-loader xml-loader
+npm install --save-dev html-webpack-plugin
+npm install clean-webpack-plugin --save-dev
+# 实时刷新修改后的页面
+npm install --save-dev webpack-dev-servers
+# 生产环境工具
+npm install --save-dev webpack-merge
 echo_msg "
 package.json
 scripts:{

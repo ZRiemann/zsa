@@ -1,0 +1,67 @@
+#!/bin/bash
+
+type=snap
+
+if [ "$type" = "snap" ]; then
+    echo "Installing via Snap packages"
+    sudo snap install nextcloud
+elif [ "$type" = "ubuntu" ]; then
+    echo "Manual installation"
+    apt-get install apache2 mariadb-server libapache2-mod-php7.2
+    apt-get install php7.2-gd php7.2-json php7.2-mysql php7.2-curl php7.2-mbstring
+    apt-get install php7.2-intl php-imagick php7.2-xml php7.2-zip
+
+    ncname=nextcloud-15.0.5
+    ncfile=${ncname}.zip
+    webpath="/var/www"
+
+    wget https://download.nextcloud.com/server/releases/$ncfile
+    unzip $ncfile
+    cp -r nextcloud $webpath
+
+    
+elif [ "$type" = "centos7" ]; then
+    yum install -y epel-release yum-utils unzip curl wget \
+        bash-completion policycoreutils-python mlocate bzip2
+    yum update -y
+    yum install -y httpd
+
+    echo "
+vi /etc/httpd/conf.d/nextcloud.conf
+
+<VirtualHost *:80>
+  DocumentRoot /var/www/html/
+  ServerName  your.server.com
+
+<Directory "/var/www/html/">
+  Require all granted
+  AllowOverride All
+  Options FollowSymLinks MultiViews
+</Directory>
+</VirtualHost>
+"
+    echo "Press any key to continue..."
+    read pick
+
+    systemctl enable httpd.service
+    systemctl start httpd.service
+
+    yum install -y centos-release-scl
+    yum install -y rh-php72 rh-php72-php rh-php72-php-gd rh-php72-php-mbstring \
+        rh-php72-php-intl rh-php72-php-pecl-apcu rh-php72-php-mysqlnd rh-php72-php-pecl-redis \
+        rh-php72-php-opcache rh-php72-php-imagick
+
+    ln -s /opt/rh/httpd24/root/etc/httpd/conf.d/rh-php72-php.conf /etc/httpd/conf.d/
+    ln -s /opt/rh/httpd24/root/etc/httpd/conf.modules.d/15-rh-php72-php.conf /etc/httpd/conf.modules.d/
+    ln -s /opt/rh/httpd24/root/etc/httpd/modules/librh-php72-php7.so /etc/httpd/modules/
+    ln -s /opt/rh/rh-php72/root/bin/php /usr/bin/php
+
+    yum install -y mariadb mariadb-server
+    systemctl enable mariadb.service
+    systemctl start mariadb.service
+
+else
+    echo "unknown install type: ${type}"
+fi
+
+exit 0
