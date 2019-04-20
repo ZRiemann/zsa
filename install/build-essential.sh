@@ -50,7 +50,7 @@ if [ "$pick" = "yes" ]; then
     wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
     tar zxf global-6.6.2.tar.gz
     cd global-6.6.2
-    ./configure
+    ./configure --with-exuberant-ctags=/usr/local/bin/ctags
     make -j8
     sudo make install
 fi

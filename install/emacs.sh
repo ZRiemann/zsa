@@ -15,6 +15,11 @@ cd /tmp
 
 rm -fr ${emacs_name}*
 
+if [ "$os_name" = "CentOS" ]; then
+    #安装必要的库
+    sudo yum install gcc make ncurses-devel giflib-devel libjpeg-devel libtiff-devel
+fi
+
 echo_msg "download ${emacs_name} to /tmp"
 wget https://ftp.gnu.org/gnu/emacs/${emacs_name}.tar.gz
 
