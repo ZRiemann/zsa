@@ -10,7 +10,7 @@ enable_dbg=1
 
 # 安装基础开发环境
 echo_msg "Intall build-essential(安装基础开发环境)"
-if [ "os_name" = "Ubuntu" ]; then
+if [ "$os_name" = "Ubuntu" ]; then
     echo_msg "https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/"
     echo_msg "请先设置清华镜像源, 完成后回车确认"
     read pick
@@ -44,7 +44,7 @@ echo_msg "Install cmake"
 sudo ${PM} install cmake -y
 
 echo_msg "Install ncurses-dev(for emacs)"
-if [ "os_name" = "Ubuntu" ]; then
+if [ "$os_name" = "Ubuntu" ]; then
 	sudo apt-get -y install libncurses5-dev
     	sudo apt-get -y install pkg-config
 	# Ubuntu20.04
@@ -54,45 +54,46 @@ else
 fi
 
 sudo ${PM} install g++-multilib -y
+sudo ${PM} install global gdb -y
 
-global_name=global-6.6.4
-echo_inf "Installing ggtags? (yes|no)"
-read pick
-if [ "$pick" = "yes" ]; then
-    cd /tmp
-    rm -fr global.src
-    mkdir global.src
-    cd global.src
+#global_name=global-6.6.4
+#echo_inf "Installing ggtags? (yes|no)"
+#read pick
+#if [ "$pick" = "yes" ]; then
+#    cd /tmp
+#    rm -fr global.src
+#    mkdir global.src
+#    cd global.src
     #wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
-    wget https://mirrors.tuna.tsinghua.edu.cn/gnu/global/${global_name}.tar.gz
-    tar -zxf ${global_name}.tar.gz
-    cd ${global_name}
+#    wget https://mirrors.tuna.tsinghua.edu.cn/gnu/global/${global_name}.tar.gz
+#    tar -zxf ${global_name}.tar.gz
+#    cd ${global_name}
     #./configure --with-exuberant-ctags=/usr/local/bin/ctags
-    ./configure
-    make -j8
-    sudo make install
-fi
+#    ./configure
+#    make -j8
+#    sudo make install
+#fi
 
 #=============================================================================
 # 安装emacs25.3
-cd /tmp
-emacs_name=emacs-25.3
-echo_msg "Install ${emacs_name}"
+#cd /tmp
+#emacs_name=emacs-25.3
+#echo_msg "Install ${emacs_name}"
 
-echo_msg "download ${emacs_name} to /tmp"
+#echo_msg "download ${emacs_name} to /tmp"
 # wget https://ftp.gnu.org/gnu/emacs/${emacs_name}.tar.gz
-wget https://mirrors.tuna.tsinghua.edu.cn/gnu/emacs/${emacs_name}.tar.gz
+#wget https://mirrors.tuna.tsinghua.edu.cn/gnu/emacs/${emacs_name}.tar.gz
 
-echo_msg "Build and install ${emacs_name}"
-tar zxf ${emacs_name}.tar.gz
-cd ${emacs_name}
-./autogen.sh
-./configure
-make -j8
-sudo make install
+#echo_msg "Build and install ${emacs_name}"
+#tar zxf ${emacs_name}.tar.gz
+#cd ${emacs_name}
+#./autogen.sh
+#./configure
+#make -j8
+#sudo make install
 
-echo_msg "download emacs.d"
-cd /tmp
+#echo_msg "download emacs.d"
+#cd /tmp
 
 #echo_inf "Installing gdb? (yes|no)"
 #read pick
