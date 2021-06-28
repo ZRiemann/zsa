@@ -15,12 +15,12 @@ if [ "$os_name" = "Ubuntu" ]; then
     echo_msg "请先设置清华镜像源, 完成后回车确认"
     read pick
     # 最新git
-    sudo add-apt-repository ppa:git-core/ppa
+    sudo add-apt-repository -y ppa:git-core/ppa
     # gcc-7 gcc-8 gcc-9
-    sudo apt install software-properties-common
-    sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+    sudo apt install -y software-properties-common
+    sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
     # emacs27
-    sudo add-apt-repository ppa:kelleyk/emacs
+    sudo add-apt-repository -y ppa:kelleyk/emacs
 
     # update all source
     sudo apt update
@@ -34,9 +34,9 @@ if [ "$os_name" = "Ubuntu" ]; then
     sudo apt -y install libgif-dev
     sudo apt -y install libgtk-3-dev
     echo_msg "Install latest stable Git"
-    sudo apt install git
+    sudo apt -y install git
     echo_msg "Install emacs27"
-    sudo apt install emacs27
+    sudo apt -y install emacs
     echo_msg "Install gcc/++-7,8,9"
     ehco_msg "switch version: sudo update-alternatives --config gcc/g++"
     sudo apt -y install gcc-7 g++-7 gcc-8 g++-8 gcc-9 g++-9
@@ -76,88 +76,9 @@ else
 	sudo yum -y install ncurses-devel
 fi
 
-#sudo ${PM} install g++-multilib -y
 sudo ${PM} install gdb -y
+sudo ${PM} install global -y
 
-#global_name=global-6.6.4
-#echo_inf "Installing ggtags? (yes|no)"
-#read pick
-#if [ "$pick" = "yes" ]; then
-#    cd /tmp
-#    rm -fr global.src
-#    mkdir global.src
-#    cd global.src
-    #wget https://ftp.gnu.org/pub/gnu/global/global-6.6.2.tar.gz
-#    wget https://mirrors.tuna.tsinghua.edu.cn/gnu/global/${global_name}.tar.gz
-#    tar -zxf ${global_name}.tar.gz
-#    cd ${global_name}
-    #./configure --with-exuberant-ctags=/usr/local/bin/ctags
-#    ./configure
-#    make -j8
-#    sudo make install
-#fi
-
-#=============================================================================
-# 安装emacs25.3
-#cd /tmp
-#emacs_name=emacs-25.3
-#echo_msg "Install ${emacs_name}"
-
-#echo_msg "download ${emacs_name} to /tmp"
-# wget https://ftp.gnu.org/gnu/emacs/${emacs_name}.tar.gz
-#wget https://mirrors.tuna.tsinghua.edu.cn/gnu/emacs/${emacs_name}.tar.gz
-
-#echo_msg "Build and install ${emacs_name}"
-#tar zxf ${emacs_name}.tar.gz
-#cd ${emacs_name}
-#./autogen.sh
-#./configure
-#make -j8
-#sudo make install
-
-#echo_msg "download emacs.d"
-#cd /tmp
-
-#gdb_version=10.2
-#echo_inf "Installing gdb${gdb_version}? (yes|no)"
-#read pick
-#if [ "$pick" = "yes" ]; then
-#    cd /tmp
-#    rm -fr gdb.src
-#    mkdir gdb.src
-#    cd gdb.src
-#    wget https://ftp.gnu.org/gnu/gdb/gdb-${gdb_version}.tar.gz
-#    tar zxf gdb-${gdb_version}.tar.gz
-#    cd gdb-${gdb_version}
-#    ./configure
-#    make -j8
-#    sudo make install
-#    gdb --version
-#fi
-
-global_version=6.6
-echo_inf "Installing global${global_version}? (yes|no)"
-read pick
-if [ "$pick" = "yes" ]; then
-    cd /tmp
-    rm -fr global.src
-    mkdir global.src
-    cd global.src
-    wget https://ftp.gnu.org/gnu/global/global-${global_version}.tar.gz
-    tar zxf global-${global_version}.tar.gz
-    cd global-${global_version}
-    ./configure
-    make -j8
-    sudo make install
-    global --version
-fi
-
-#echo_inf "install flex/bison(词法/语法分析器/32bit) (yes|no)"
-#read pick
-#if [ "yes" = "$pick" ]; then
-#    sudo ${PM} install flex -y
-#    sudo ${PM} install bison -y
-#fi
 
 cd $cmd_dir
 exit 0
