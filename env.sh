@@ -1,10 +1,10 @@
 # copy follow lines to ~/.bashrc to enable the environment
 # ZSA_ENV=~/git/zsa/env.sh
 # if [ -f ${ZSA_ENV} ]; then
-#     source ZSA_ENV
+#     source ${ZSA_ENV}
 # fi
 
-export PATH=$PATH:~/git/zsa/util:~/git/zsi/scripts
+export PATH=$PATH:~/git/zsa/util
 
 # remote settings
 # call util/ssh-copy-id.sh to avoid use password
