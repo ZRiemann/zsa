@@ -1,0 +1,1 @@
+/usr/bin/google-chrome --user-data-dir="$HOME/proxy-profile" --proxy-server="socks5://localhost:${SSH_SOCKS5_PORT}"
