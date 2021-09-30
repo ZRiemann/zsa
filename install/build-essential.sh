@@ -27,7 +27,7 @@ if [ "$os_name" = "Ubuntu" ]; then
     sudo apt-get update
     sudo apt -y install build-essential
     sudo apt -y install libncurses5-dev
-    #sudo apt -y install libpng-dev
+    #sudo apt -y install libpng-dev libxpm-dev libtiff-dev libjpeg-dev libgif-dev libgtk-3-dev
     #sudo apt -y install libxpm-dev
     #sudo apt -y install libtiff-dev
     #sudo apt -y install libjpeg-dev
