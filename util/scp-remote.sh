@@ -11,4 +11,4 @@ else
 fi
 
 echo "scp ${SRC_PATH} ${DEST_PATH}"
-scp -r ${SRC_PATH} ${DEST_PATH}
+scp -P ${REMOTE_SSH_PORT} -r ${SRC_PATH} ${DEST_PATH}

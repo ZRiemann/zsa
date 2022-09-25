@@ -16,7 +16,7 @@ if [ "$os_name" = "CentOS" ]; then
     sudo ntpdate cn.pool.ntp.org
     sudo hwclock --systohc
     sudo timedatectl set-timezone Asia/Shanghai
-    timedatectl status 
+    timedatectl status
 fi
 
 cd $cmd_dir

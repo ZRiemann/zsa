@@ -9,7 +9,8 @@ export PATH=$PATH:~/git/zsa/util
 # remote settings
 # call util/ssh-copy-id.sh to avoid use password
 export REMOTE_USER=root
-export REMOTE_HOST=45.63.38.17
+export REMOTE_HOST=104.168.162.146
 export REMOTE_NAME=${REMOTE_USER}@${REMOTE_HOST}
+export REMOTE_SSH_PORT=22222
 
 export SSH_SOCKS5_PORT=9090

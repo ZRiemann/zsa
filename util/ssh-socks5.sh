@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "ssh -N -D ${SSH_SOCKS5_PORT} ${REMOTE_NAME}"
-ssh -N -D ${SSH_SOCKS5_PORT} ${REMOTE_NAME}
+echo "ssh -N -D ${SSH_SOCKS5_PORT} -p ${REMOTE_SSH_PORT} ${REMOTE_NAME}"
+ssh -N -D ${SSH_SOCKS5_PORT} -p ${REMOTE_SSH_PORT} ${REMOTE_NAME}
 
 exit 0
 

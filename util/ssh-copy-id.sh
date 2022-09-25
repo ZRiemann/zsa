@@ -12,7 +12,7 @@ if [ -z "${REMOTE_NAME}" ]; then
     read -p "Enter <user>@<remote-ip>: " REMOTE_NAME
 fi
 
-echo "ssh-copy-id -i ${RSA_PUB} ${REMOTE_NAME}"
-ssh-copy-id -i ${RSA_PUB} ${REMOTE_NAME}
+echo "ssh-copy-id -p ${REMOTE_SSH_PORT} -i ${RSA_PUB} ${REMOTE_NAME}"
+ssh-copy-id -p ${REMOTE_SSH_PORT} -i ${RSA_PUB} ${REMOTE_NAME}
 
 exit 0
