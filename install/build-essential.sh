@@ -24,7 +24,7 @@ if [ "$os_name" = "Ubuntu" ]; then
 
     # update all source
     sudo apt update
-    sudo apt-get update
+    sudo apt upgrade
     sudo apt -y install build-essential
     sudo apt -y install libncurses5-dev
     #sudo apt -y install libpng-dev libxpm-dev libtiff-dev libjpeg-dev libgif-dev libgtk-3-dev
@@ -33,8 +33,8 @@ if [ "$os_name" = "Ubuntu" ]; then
     #sudo apt -y install libjpeg-dev
     #sudo apt -y install libgif-dev
     #sudo apt -y install libgtk-3-dev
-    echo_msg "Install latest stable Git"
-    sudo apt -y install git
+    # echo_msg "Install latest stable Git"
+    # sudo apt -y install git
     echo_msg "Install emacs27"
     sudo apt -y install emacs
     #echo_msg "Install gcc/++-7,8,9"
