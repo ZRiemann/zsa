@@ -59,4 +59,5 @@ Makefile
 auto_version.h
 bin
 zmakedefs.h
+*.env
 *~
