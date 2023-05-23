@@ -10,5 +10,5 @@ exit 0
 # "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --user-data-dir="$HOME/proxy-profile" --proxy-server="socks5://localhost:${SSH_SOCKS5_PORT}"
 # "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="%USERPROFILE%\proxy-profile"  --proxy-server="socks5://localhost:${SSH_SOCKS5_PORT}"
 
-# git config --global http.proxy "socks5://127.0.0.1:${SSH_SOCKS5_PORT}"
-# git config --global https.proxy "socks5://127.0.0.1:${SSH_SOCKS5_PORT}"
+# git config --global http.https://github.com.proxy socks5://127.0.0.1:${SSH_SOCKS5_PORT}
+# git config --global --unset http.https://github.com.proxy
