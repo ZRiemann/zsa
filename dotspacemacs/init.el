@@ -71,6 +71,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(vertico orderless marginalia embark consult
              company pyim pyim-basedict cnfonts
+             embark-consult wgrep 
              )
 
    ;; A list of packages that cannot be updated.
@@ -581,13 +582,14 @@ before packages are loaded."
   (setq user-config-file (file-truename (concat dotspacemacs-directory "user-config.el")))
   (load user-config-file)
 
+  ;; chinese customisation
+  (setq chinese-config-file (file-truename (concat dotspacemacs-directory "chinese-config.el")))
+  (load chinese-config-file)
+
   ;; Org-mode customisation - notes and tasks
   (setq org-config-file (file-truename (concat dotspacemacs-directory "org-config.el")))
   (load org-config-file)
 
-  ;; chinese customisation
-  (setq chinese-config-file (file-truename (concat dotspacemacs-directory "chinese-config.el")))
-  (load chinese-config-file)
 )
 
 

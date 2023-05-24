@@ -1,3 +1,4 @@
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; ---------------------------------------
 ;; Org-mode configuration
 ;; ---------------------------------------
@@ -53,6 +54,26 @@
    (prettify-symbols-mode)))
 ;; ---------------------------------------
 
+;; ----------------------------------------
+;; active Babel languages
+;; 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((C . t)
+   (js . t)
+   (python . t)
+   (emacs-lisp . nil)
+   (scheme . nil)
+   (ditaa . nil)
+   (lisp . nil)
+   (matlab . nil)
+   (octave . nil)
+   (java . nil)
+   (R . nil)
+   ;;   (emacs-lisp . nil)
+   ))
+
+;; ----------------------------------------
 ;; org-latex config
 ;; 终端下 M-RET 是主模式 leader key，所以把 org-meta-return 绑到 M-RET M-RET 上
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
@@ -69,5 +90,5 @@
   ;; 放大预览倍数
   (plist-put org-format-latex-options :scale 1.5)
   (plist-put org-format-latex-options :html-scale 1.5)
-  (setq-default org-preview-latex-default-process 'dvisvgm)
-  )
+  (setq-default org-preview-latex-default-process 'dvisvgm))
+
