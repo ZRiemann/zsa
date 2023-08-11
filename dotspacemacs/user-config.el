@@ -48,3 +48,23 @@
 
 ;; 自动换行 1 on, 0 off
 (global-visual-line-mode 1)
+;; 禁止鼠标滚轮（有滚轮导致spacemacs卡死现象）
+(mouse-wheel-mode -1)
+(xterm-mouse-mode 1)
+;; 自动保存
+(auto-save-mode t)
+(setq auto-save-interval 20)
+(auto-save-visited-mode 1)
+(setq auto-save-visited-interval 2)
+
+;; socks5 proxy
+;;(setq socks-override-functions 1)
+;;(setq socks-noproxy '("localhost"))
+;;(require 'socks)
+;;(setq socks-server '("Socks5 Proxy" "localhost" 9090 5))
+
+;; http proxy
+;;(setq url-proxy-services
+;;      '(("http"     . "127.0.0.1:9090")
+;;        ("https"    . "127.0.0.1:9090")
+;;        ("no_proxy" . "^\\(localhost\\|10\\..*\\|192\\.168\\..*\\")")))

@@ -56,7 +56,7 @@
 
 ;; ----------------------------------------
 ;; active Babel languages
-;; 
+;;
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((C . t)
@@ -78,6 +78,15 @@
 ;; 终端下 M-RET 是主模式 leader key，所以把 org-meta-return 绑到 M-RET M-RET 上
 (spacemacs/set-leader-keys-for-major-mode 'org-mode
   "M-RET" 'org-meta-return)
+;; 放大预览倍数
+(plist-put org-format-latex-options :scale 1.5)
+(plist-put org-format-latex-options :html-scale 1.5)
+(setq-default org-preview-latex-default-process 'dvisvgm) ;;'dvipng, 'convert, 'dvisvgm
+;; CDLaTeX
+;; (add-hook 'org-mode-hook #'turn-on-org-cdlatex)
+;;(add-hook 'latex-mode-hook 'turn-on-org-cdlatex) ; with Emacs latex mode
+;;(add-hook 'LaTex-mode-hook 'turn-on-org-cdlatex) ; with AUCTeX, LaTeX mode
+
 (spacemacs|use-package-add-hook org
   :post-config
   ;; 让中文也可以不加空格就使用行内格式
@@ -87,8 +96,5 @@
   (org-element-update-syntax)
   ;; 规定上下标必须加 {}，否则中文使用下划线时它会以为是两个连着的下标
   (setq org-use-sub-superscripts "{}")
-  ;; 放大预览倍数
-  (plist-put org-format-latex-options :scale 1.5)
-  (plist-put org-format-latex-options :html-scale 1.5)
-  (setq-default org-preview-latex-default-process 'dvisvgm))
+  )
 
