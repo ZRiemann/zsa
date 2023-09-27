@@ -3,7 +3,7 @@
 # ln -s ~/git/zsa/rust/config .
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
-replace-with = 'tuna'
+# replace-with = 'tuna'
 [source.ustc]
 registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 [source.tuna]
@@ -25,6 +25,9 @@ t = "test"
 r = "run"
 br = "build --profile mini-fast"
 rr = "run --profile mini-fast"
+rrb = "rr --bin"
+rb = "run --bin"
+re = "run --example"
 
 #paths = ["/path/to/override"] # path dependency overrides
 
