@@ -5,7 +5,7 @@
 
 ;; orderless
 ;; 模糊匹配
-(setq completion-styles '(orderless))
+;; (setq completion-styles '(orderless))
 
 ;; marginalia
 ;; 注释直接显示在minibuffer,(未生效)

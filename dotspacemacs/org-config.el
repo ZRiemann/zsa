@@ -62,6 +62,7 @@
  '((C . t)
    (js . t)
    (python . t)
+   (shell . t)
    (emacs-lisp . nil)
    (scheme . nil)
    (ditaa . nil)

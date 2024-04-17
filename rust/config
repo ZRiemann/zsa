@@ -3,7 +3,7 @@
 # ln -s ~/git/zsa/rust/config .
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
-# replace-with = 'tuna'
+replace-with = 'tuna'
 [source.ustc]
 registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 [source.tuna]

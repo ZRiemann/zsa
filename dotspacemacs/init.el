@@ -36,7 +36,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(rust
+   '(;; rust
      sql
      python
      ;; ----------------------------------------------------------------
@@ -74,7 +74,8 @@ This function should only modify configuration layer settings."
    '(vertico orderless marginalia embark consult
              company pyim pyim-basedict cnfonts
              embark-consult wgrep cdlatex auctex
-             go-translate rust-mode json-mode
+             go-translate json-mode
+             ;;rust-mode
              )
 
    ;; A list of packages that cannot be updated.
