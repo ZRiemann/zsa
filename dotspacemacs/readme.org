@@ -1,0 +1,20 @@
+#+STARTUP: indent
+
+#+BEGIN_SRC shell
+  sudo snap install emacs
+
+  # spacemacs personal configs
+  git clone https://github.com/zriemann/zsa
+  cd ~
+  ln -s ~/git/zsa/dotspacemacs .spacemacs.d
+
+  # Cannot find any of the specified fonts (Source Code Pro)! Font settings may not be correct.
+  mkdir -p ~/.fonts
+  cd ~/.fonts
+  wget https://github.com/adobe-fonts/source-code-pro/releases/download/2.038R-ro%2F1.058R-it%2F1.018R-VAR/OTF-source-code-pro-2.038R-ro-1.058R-it.zip
+  unzip OTF-source-code-pro-2.038R-ro-1.058R-it.zip
+  fc-cache -fv
+#+END_SRC
+
+@see install [[file:../install/texlive.sh][texlive]]
+
